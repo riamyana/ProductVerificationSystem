@@ -1,0 +1,14 @@
+<p>home works!</p>
+
+<form [formGroup]="form">
+    <mat-form-field color="accent" appearance="fill">
+        <mat-label>Enter Product Name</mat-label>
+        <input matInput placeholder="Product Name" formControlName="name">
+        <mat-error>
+            Please provide a valid Product Name
+        </mat-error>
+    </mat-form-field>
+</form>
+
+<button (click)="set()">Set Name</button>
+<button (click)="get()">Get Name</button>

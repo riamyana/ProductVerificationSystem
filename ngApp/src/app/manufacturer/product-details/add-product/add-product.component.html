@@ -1,0 +1,41 @@
+<!-- <div *ngIf="loader.isLoading | async" class="loader">
+    <mat-spinner style="top:40%; left:20%" color="primary"></mat-spinner>
+</div> -->
+<h2 mat-dialog-title>Add Product</h2>
+<div mat-dialog-content>
+    <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center" class="container">
+        <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="productForm">
+            <input type="hidden" formControlName="packageId">
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Enter Product Name</mat-label>
+                <input matInput placeholder="Product Name" formControlName="productName">
+                <mat-error>
+                    Please provide a valid Product Name
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Enter Manufacturing Date</mat-label>
+                <input matInput [matDatepicker]="start" formControlName="date" placeholder="Manufacturing Date">
+                <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+                <mat-datepicker #start></mat-datepicker>
+                <mat-error>
+                    Please provide a valid Manufacturing Date
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Validity (days)</mat-label>
+                <input matInput placeholder="Price" formControlName="price" type="number">
+                <mat-error>
+                    Please provide a valid Price
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-raised-button type="submit" color="primary" color="accent" (click)="onAdd()">Add</button>
+    <button mat-raised-button type="submit" color="primary" color="warn" (click)="onCancel()">Cancel</button>
+</div>

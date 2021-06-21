@@ -1,0 +1,39 @@
+<!-- <div *ngIf="loader.isLoading | async" class="loader">
+    <mat-spinner style="top:40%; left:20%" color="primary"></mat-spinner>
+</div> -->
+
+<div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-around center" class="container">
+    <mat-card fxFlex="50" fxFlex.xs="100%" fxFlex.md="50%" fxFlex.sm="70%" fxLayoutAlign="space-around center">
+        <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="changeOwnerForm">
+            <mat-form-field fxFlex="100" color="accent" appearance="fill">
+                <mat-label>Enter Product Id</mat-label>
+                <input matInput placeholder="Product Id" formControlName="id">
+                <mat-error>
+                    Please provide a valid Product Id
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" color="accent" appearance="fill">
+                <mat-label>Enter Owner Address</mat-label>
+                <input matInput placeholder="Owner Address" formControlName="address">
+                <mat-error>
+                    Please provide a valid Address
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" color="accent" appearance="fill">
+                <mat-label>Enter Owner Name</mat-label>
+                <input matInput placeholder="Owner Name" formControlName="ownerName">
+                <mat-error>
+                    Please provide a valid Name
+                </mat-error>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutGap="20px">
+                <button mat-raised-button type="submit" style="height:70%;" color="primary" color="accent"
+                    (click)="onChangeOwner()">Change Owner</button>
+            </div>
+
+        </form>
+    </mat-card>
+</div>

@@ -1,0 +1,22 @@
+.container {
+    height: 60%;
+    width: 100%;
+    border-radius: 5px 5px 5px 5px;
+}
+
+a {
+  text-decoration: none;
+  height: 4vh;
+  width: 20vw;
+  text-align: center;
+  font-size: x-large;
+  padding: 20px;
+  background-color: rgb(255, 112, 0);
+  color: white;
+}
+
+.link {
+  background-color: blue;
+  height: 10vh;
+  width: 20vw;
+}

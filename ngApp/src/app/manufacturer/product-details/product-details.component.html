@@ -1,0 +1,51 @@
+<!-- <div *ngIf="loader.isLoading | async" class="loader">
+    <mat-spinner style="top:40%; left:20%" color="primary"></mat-spinner>
+</div> -->
+
+<div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-around center" class="container">
+    <mat-card fxFlex="50" fxFlex.xs="100%" fxFlex.md="50%" fxFlex.sm="70%" fxLayoutAlign="space-around center">
+        <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="productForm">
+            <input type="hidden" formControlName="serialNo">
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Enter Product Name</mat-label>
+                <input matInput placeholder="Product Name" formControlName="productName">
+                <mat-error>
+                    Please provide a valid Product Name
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Enter Manufacturing Date</mat-label>
+                <input matInput [matDatepicker]="start" formControlName="date" placeholder="Manufacturing Date">
+                <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+                <mat-datepicker #start></mat-datepicker>
+                <mat-error>
+                    Please provide a valid Manufacturing Date
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Product Price</mat-label>
+                <input matInput placeholder="Price" formControlName="price" type="number">
+                <mat-error>
+                    Please provide a valid Price
+                </mat-error>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutGap="20px">
+                <button mat-raised-button type="submit" color="primary" color="accent" (click)="onAdd()">Add</button>
+                <button mat-raised-button *ngIf="added" type="submit" color="primary" color="warn"
+                    (click)="onGenerateQR()">Generate QR</button>
+                <button mat-raised-button type="submit" color="primary" color="warn" (click)="onCancel()">Clear</button>
+                <button mat-raised-button type="submit" color="primary" color="warn" (click)="onGet()">Get Details</button>
+            </div>
+
+            <div fxLayout="column" *ngIf="generated"  fxLayoutAlign="space-around center">
+                <label for="productId" style="font-weight: bold;size: 30px;padding-top: 20px;">Product Id: {{productId}}</label>
+                <qrcode #qr id="qrcode" [qrdata]="qrData"  [elementType]="elementType" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                <a mat-raised-button color="primary" [href]="href" (click)="download()" download>Download QR Code</a>
+            </div>
+            
+        </form>
+    </mat-card>
+</div>

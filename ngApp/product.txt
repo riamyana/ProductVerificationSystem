@@ -1,0 +1,65 @@
+manufacture -> register, login, add product details and create QR Code
+user -> register, login, scan QR code and get product details
+
+product id, name, manufact date, price, add date time, lat long
+
+
+
+contract productIdentity {
+
+uint number = 16;
+uint numberModulus = 10 ** number;
+
+struct Product{
+	uint id;
+        string name;
+	string manufactDate;
+	string addDate;
+	string lat;
+	string long;
+}
+
+Product[] public product;
+mapping(uint => address) public productToOwner;
+mapping(address => uint) public ownerProductCount;
+
+function _generateRandomId(string memory _str) private view returns (uint) {
+        uint rand = uint(keccak256(abi.encodePacked(_str)));
+        return rand % numberModulus 
+}
+
+function _createProduct(string memory _name, string manufactDate, string addDate, string lat, string long, uint _dna) private {
+        uint id = product.push(Product(_name, manufactDate, addDate, lat, long, _dna)) - 1;
+        productToOwner[id] = msg.sender;
+        ownerProductCount[msg.sender]++;
+        emit NewZombie(id, _name, _dna);
+}
+
+function createRandomProduct(string memory _name, string manufactDate, string addDate, string lat, string long) public {
+        uint randId = _generateRandomId(_name);
+        _createProduct(_name, manufactDate, addDate, lat, long, randId);
+}
+}
+
+
+
+
+
+product{
+
+	address manufacturer;
+	serialno,
+	name,
+	price
+}
+
+
+mapping(address=>product[]) prodcutToManufacturer;
+mapping(address => uint) public ownerProductCount;
+
+
+loop()
+
+serialno
+
+

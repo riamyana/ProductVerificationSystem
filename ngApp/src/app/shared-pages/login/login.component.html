@@ -1,0 +1,44 @@
+<div class="container" fxLayout="row" fxLayoutAlign="space-around center">
+  <!-- <div *ngIf="loader.isLoading | async" class="loader">
+        <mat-spinner style="top:40%; left:50%" color="primary"></mat-spinner>
+    </div> -->
+  <!-- <mat-card class="card" fxFlex="30" fxFlex.xs="100%" fxFlex.md="50%" fxFlex.sm="70%">
+        <div fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex>
+            <div fxFlex="100" fxLayoutAlign="center" class="login" fxFlex.xs="70" fxFlex.sm="90" fxFlex.md="90%">
+                <form fxLayout="column" [formGroup]="loginForm" class="form" (ngSubmit)="onSubmit()" fxFlex="85"
+                    fxFlex.xs="100" fxFlex.md="100">
+                    <mat-form-field class="example-full-width" color="accent" appearance="fill">
+                        <mat-label>
+                            <mat-icon color="accent" [class]="'input-icon'">person</mat-icon>User Name
+                        </mat-label>
+                        <input matInput formControlName="userName" placeholder="Ex. userName">
+                        <mat-error>
+                            Please provide a valid email address
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" color="accent" appearance="fill">
+                        <mat-label>
+                            <mat-icon color="accent" [class]="'input-icon'">lock</mat-icon>Password
+                        </mat-label>
+                        <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput
+                            placeholder="Password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon color="primary">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error>
+                            Please provide a valid password
+                        </mat-error>
+                    </mat-form-field>
+
+                    <button mat-raised-button type="submit" color="primary">Login</button>
+                </form>
+            </div>
+
+        </div>
+    </mat-card> -->
+
+  <div  fxLayout="row" fxLayoutAlign="space-around center">
+    <a href="#" class="loginMetamask">Login Using Metamask</a>
+  </div>
+</div>

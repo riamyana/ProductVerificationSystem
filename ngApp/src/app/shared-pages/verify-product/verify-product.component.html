@@ -1,0 +1,64 @@
+<!-- <div *ngIf="loader.isLoading | async" class="loader">
+    <mat-spinner style="top:40%; left:20%" color="primary"></mat-spinner>
+</div> -->
+
+<div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-around center" class="container">
+    <mat-card fxFlex="50" fxFlex.xs="100%" fxFlex.md="50%" fxFlex.sm="70%" fxLayoutAlign="space-around center">
+        <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="verifyProductForm">
+            <div fxLayout="row" fxLayoutGap="30px">
+                <mat-form-field fxFlex="100" color="accent" appearance="fill">
+                    <mat-label>Enter Product Id</mat-label>
+                    <input matInput placeholder="Product Id" formControlName="id">
+                    <mat-error>
+                        Please provide a valid Product Id
+                    </mat-error>
+                </mat-form-field>
+
+                <div fxLayout="row" fxLayoutGap="20px">
+                    <button mat-raised-button type="submit" style="height:70%;" color="primary" color="accent"
+                        (click)="onVerify()">Verify Product</button>
+                </div>
+            </div>
+
+            <div *ngIf="afterClicked" class="verified">
+                <label for="">{{(fake)?'Product is Fake...!':'Product is Real...!'}}</label>
+                <span class="material-icons" *ngIf="!fake">sentiment_satisfied_alt</span>
+                <span class="material-icons" *ngIf="fake">sentiment_very_dissatisfied</span>
+                <div *ngIf="!fake">Product Owner Name: {{ownerName}}</div>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="30px">
+                <button mat-raised-button color="primary" style="width: 25%;" (click)="scan=true">
+                    <mat-icon color="accent">qr_code_2</mat-icon> Scan QR code
+                </button>
+
+                <!-- <input type="file" #file name="file" id="file">   -->
+
+                <input #file hidden="true" type="file" [accept]="'*'" id="file" (change)="preview(file.files)"/>
+                <!-- <button mat-flat-button color="primary" (click)="imgInput.click()">
+                    <mat-icon color="accent">file_upload</mat-icon> Scan QR code
+                </button> -->
+                <!-- <ng2-qrcode-reader (result)="render($event)" [qrr-show]="true" [qrr-value]="value" [qrr-type]="elementType">  
+                </ng2-qrcode-reader><br> -->
+
+            </div>
+
+            <!-- <ngx-mat-file-input placeholder="Basic Input" formControlName="uploadQr"></ngx-mat-file-input> -->
+
+            <div fxLayout="column" *ngIf="scan" fxLayoutAlign="space-around center">
+                <zxing-scanner class="scanner" (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+
+                <button mat-raised-button color="primary" (click)="scan=false">Cancel</button>
+
+                <section class="results" *ngIf="qrResultString">
+                    <div>
+                        <small>Result</small>
+                        <strong>{{ qrResultString }}</strong>
+                    </div>
+                    <button mat-icon-button (click)="clearResult()">&times;</button>
+                </section>
+
+            </div>
+        </form>
+    </mat-card>
+</div>
