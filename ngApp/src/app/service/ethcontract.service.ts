@@ -1,3 +1,5 @@
+import { UserModel } from './../common/model/userModel';
+import { environment } from './../../environments/environment.prod';
 import { Product } from './../common/constants/product';
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
@@ -5,6 +7,10 @@ import Web3 from 'web3';
 // import * as Web3 from 'web3';
 import * as TruffleContract from 'truffle-contract';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 declare let require: any;
 declare let window: any;
@@ -21,10 +27,16 @@ export class EthcontractService {
   private contracts: {};
   private enable: any;
   private account: any = null;
+  private userModel: UserModel;
+  private currentUserSubject: BehaviorSubject<UserModel>;
+  public currentUser: Observable<UserModel>;
+  public isAuthenticated = new BehaviorSubject<boolean>(false);
 
   MetaCoin = contract(tokenAbi);
 
-  constructor() {
+  constructor(
+    private http: HttpClient
+  ) {
     if (window.ethereum === undefined) {
       alert('Non-Ethereum browser detected. Install MetaMask');
     } else {
@@ -40,6 +52,13 @@ export class EthcontractService {
       // this.enable = this.enableMetaMaskAccount();
       this.enable = this.enableMetaMaskAccount();
     }
+
+    this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('DAppToken')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): UserModel {
+    return this.currentUserSubject.value;
   }
 
   private async enableMetaMaskAccount(): Promise<any> {
@@ -76,9 +95,17 @@ export class EthcontractService {
     return Promise.resolve(this.account);
   }
 
-  demoSignIn() {
-    window.web3.eth.personal.sign(window.web3.utils.fromUtf8("Hello from Toptal!"), this.account, console.log);
+  public async signIn(user: UserModel): Promise<any> {
+    const publicAddress = this.account;
+    const msg = `I am signing my one-time nonce: ${user.nonce}`;
     console.log(window.web3);
+
+    return new Promise((resolve, reject) => {
+      window.web3.eth.personal.sign(window.web3.utils.fromUtf8(msg), publicAddress, (err, signature) => {
+        if (err) return reject(err);
+        return resolve({ publicAddress, signature })
+      });
+    }) as Promise<any>;
   }
 
   public async getUserBalance(): Promise<any> {
@@ -329,6 +356,60 @@ export class EthcontractService {
     console.log(this.web3Provider);
   }
 
+  metamaskLogin() {
+    this.userModel = { publicAddress: this.account };
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<UserModel>(`${environment.apiUrl}login`, this.userModel, { headers: httpHeaders });
+  }
+
+  register(userModel: UserModel) {
+    userModel.publicAddress = this.account;
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<UserModel>(`${environment.apiUrl}register`, userModel, { headers: httpHeaders });
+  }
+
+  authenticate(data: any) {
+    // debugger;
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<UserModel>(`${environment.apiUrl}authenticate`, data, { headers: httpHeaders })
+      .pipe(map(result => {
+        localStorage.setItem('DAppToken', JSON.stringify(result));
+        return result;
+      }));
+  }
+
+  checkAuthenticated() {
+    const local = JSON.parse(localStorage.getItem('DAppToken'));
+    if (local) {
+      if (local.token) {
+        this.currentUserSubject.next(local);
+        this.isAuthenticated.next(true);
+        return this.isAuthenticated.value;
+      }
+    }
+    this.isAuthenticated.next(false);
+    this.currentUserSubject.next(null);
+    return this.isAuthenticated.value;
+  }
+
+  isLoggedIn():boolean {
+    return !!(localStorage.getItem('DAppToken'));
+  }
+
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('DAppToken');
+    this.currentUserSubject.next(null);
+  }
   // transferEther(
   //   _transferFrom,
   //   _transferTo,

@@ -37,7 +37,7 @@
                 <button mat-raised-button *ngIf="added" type="submit" color="primary" color="warn"
                     (click)="onGenerateQR()">Generate QR</button>
                 <button mat-raised-button type="submit" color="primary" color="warn" (click)="onCancel()">Clear</button>
-                <button mat-raised-button type="submit" color="primary" color="warn" (click)="onGet()">Get Details</button>
+                <!-- <button mat-raised-button type="submit" color="primary" color="warn" (click)="onGet()">Get Details</button> -->
             </div>
 
             <div fxLayout="column" *ngIf="generated"  fxLayoutAlign="space-around center">
@@ -45,7 +45,7 @@
                 <qrcode #qr id="qrcode" [qrdata]="qrData"  [elementType]="elementType" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
                 <a mat-raised-button color="primary" [href]="href" (click)="download()" download>Download QR Code</a>
             </div>
-            
+
         </form>
     </mat-card>
 </div>

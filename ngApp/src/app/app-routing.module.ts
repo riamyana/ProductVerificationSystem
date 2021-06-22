@@ -1,4 +1,5 @@
-import { Users } from './common/constants/user';
+import { RegisterComponent } from './shared-pages/register/register.component';
+import { Users } from './common/model/user';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { ChangeOwnershipComponent } from './shared-pages/change-ownership/change-ownership.component';
 import { VerifyProductComponent } from './shared-pages/verify-product/verify-product.component';
@@ -22,6 +23,8 @@ const routes: Routes = [
     path: 'change-ownership', component: ChangeOwnershipComponent
   }, {
     path: 'login', component: LoginComponent
+  }, {
+    path: 'register', component: RegisterComponent
   }
   ]}
 ];

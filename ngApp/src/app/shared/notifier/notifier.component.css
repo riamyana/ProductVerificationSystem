@@ -1,0 +1,9 @@
+.msg {
+  font-size: medium;
+  color: white;
+  padding-bottom: 15px;
+}
+
+.error {
+  font-size: larger;
+}
