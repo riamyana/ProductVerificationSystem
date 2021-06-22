@@ -4,7 +4,7 @@
     border-radius: 5px 5px 5px 5px;
 }
 
-a {
+.link {
   text-decoration: none;
   height: 4vh;
   width: 20vw;
@@ -15,8 +15,12 @@ a {
   color: white;
 }
 
-.link {
-  background-color: blue;
-  height: 10vh;
-  width: 20vw;
+.link:hover {
+  box-shadow: 2px 2px 2px 2px grey;
+}
+
+.register {
+  text-decoration: none;
+  padding-top:7px;
+  font-size: 17px;
 }

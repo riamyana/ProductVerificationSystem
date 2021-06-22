@@ -36,7 +36,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   initAndDisplayAccount = () => {
-    let that = this;
 
     this.ethcontractService.getUserBalance().
       then(function (retAccount: any) {
@@ -165,10 +164,10 @@ export class ProductDetailsComponent implements OnInit {
       }, e => {console.log(e);})
   }
 
-  onGet() {
-    // this.getProduct(1);
-    this.ethcontractService.demoSignIn();
-  }
+  // onGet() {
+  //   // this.getProduct(1);
+  //   this.ethcontractService.signIn();
+  // }
 
   onSaveQr(qr) {
 
@@ -201,6 +200,6 @@ export class ProductDetailsComponent implements OnInit {
     var dataURL = canvas.toDataURL("image/png");
     return dataURL;
   }
-  
+
 
 }

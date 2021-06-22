@@ -1,4 +1,5 @@
-import { Users } from './common/constants/user';
+import { EthcontractService } from './service/ethcontract.service';
+import { Users } from './common/model/user';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +10,8 @@ import { Observable } from 'rxjs';
 export class AuthGuardGuard implements CanActivate {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private ethcontractService: EthcontractService
   ) {
 
   }
@@ -17,12 +19,19 @@ export class AuthGuardGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-      if (route.data.role && route.data.role != Users.Manufacturer) {
+
+    const currentUser = this.ethcontractService.currentUserValue;
+
+    if (currentUser) {
+      if (route.data.role && route.data.role != currentUser.userRole) {
         this.router.navigate(['/']);
         return false;
       }
-    return true;
+      return true;
+    }
+
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    return false;
   }
-  
+
 }

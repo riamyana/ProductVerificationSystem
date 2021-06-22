@@ -1,9 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const sigUtil = require('eth-sig-util')
+const ethUtil = require('ethereumjs-util')
+const jwt = require('jsonwebtoken')
 
 const mongoose = require('mongoose')
-const db = "mongodb+srv://ria:riamyana@cluster0.pws7t.mongodb.net/ProductVerification?retryWrites=true&w=majority"
+// const db = "mongodb+srv://ria:riamyana@cluster0.pws7t.mongodb.net/ProductVerification?retryWrites=true&w=majority"
+
+const db = "mongodb+srv://ria:riamyana@cluster0.fazwr.mongodb.net/ProductVerification?retryWrites=true&w=majority"
 
 mongoose.connect(db, err => {
   if (err) {
@@ -33,7 +38,16 @@ router.post('/register', (req, res) => {
           if (error) {
             console.log(error)
           } else {
-            res.status(200).send(registeredUser)
+            let payload = { subject: registeredUser._id };
+            let token = jwt.sign(payload, 'DAppsecretKey');
+
+            responseData = { 'role': registeredUser.userRole };
+            responseData['token'] = token;
+            responseData.userName = registeredUser.userName;
+            responseData.companyOrFullName = registeredUser.companyOrFullName;
+            responseData.userRole = registeredUser.userRole;
+            responseData.email = registeredUser.email;
+            res.status(200).send(responseData);
           }
         })
       }
@@ -43,15 +57,56 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
   let userData = req.body
-  User.findOne({ publicAddress: userData.publicAddress }, function (err, result) {
+  User.findOne({ publicAddress: userData.publicAddress }, function (err, user) {
     if (err) {
       console.log("err" + err);
       res.status(422).send(err);
     } else {
-      if (!result) {
+      if (!user) {
         res.status(401).send("Public address not found..!");
       } else {
-        res.status(200).send(result);
+        res.status(200).send(user);
+      }
+    }
+  })
+})
+
+router.post('/authenticate', (req, res) => {
+  let userData = req.body
+  User.findOne({ publicAddress: userData.publicAddress }, function (err, user) {
+    if (err) {
+      console.log("err" + err);
+      res.status(422).send(err);
+    } else {
+      if (!user) {
+        res.status(401).send("Public address not found..!");
+      } else {
+        const msg = `I am signing my one-time nonce: ${user.nonce}`;
+        const msgBufferHex = ethUtil.bufferToHex(Buffer.from(msg, 'utf8'));
+        const address = sigUtil.recoverPersonalSignature({
+          data: msgBufferHex,
+          sig: userData.signature
+        }, function (err, response) {
+          if (err) {
+            return res.status(401).send({ error: 'Signature verification failed' });
+          } else {
+            return response;
+          }
+        });
+
+        if (address.toLowerCase() === userData.publicAddress.toLowerCase()) {
+          let payload = { subject: user._id };
+          let token = jwt.sign(payload, 'DAppsecretKey');
+          responseData = { 'role': user.userRole };
+          responseData['token'] = token;
+          responseData.userName = user.userName;
+          responseData.companyOrFullName = user.companyOrFullName;
+          responseData.userRole = user.userRole;
+          responseData.email = user.email;
+          res.status(200).send(responseData);
+        } else {
+          return res.status(401).send({ error: 'Signature verification failed' });
+        }
       }
     }
   })

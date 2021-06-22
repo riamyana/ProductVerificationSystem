@@ -38,7 +38,8 @@
         </div>
     </mat-card> -->
 
-  <div  fxLayout="row" fxLayoutAlign="space-around center">
-    <a href="#" class="loginMetamask">Login Using Metamask</a>
+  <div  fxLayout="column" fxLayoutAlign="start start">
+    <a class="link" (click)="login()">Login Using Metamask</a>
+    <a routerLink="/register" class="register">Register</a>
   </div>
 </div>

@@ -1,3 +1,4 @@
+import { NotifierComponent } from './shared/notifier/notifier.component';
 import { MaterialModule } from './material/material.module';
 import { DefaultModule } from './layouts/default/default.module';
 import { NgModule } from '@angular/core';
@@ -8,10 +9,10 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QRCodeModule } from 'angularx-qrcode';
 import { HttpClientModule } from '@angular/common/http';
-
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotifierComponent
   ],
   imports: [
     BrowserModule,
