@@ -4,23 +4,11 @@
 
 <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-around center" class="container">
   <mat-card fxFlex="50" fxFlex.xs="100%" fxFlex.md="50%" fxFlex.sm="70%" fxLayoutAlign="space-around center">
-      <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-
-        <mat-form-field color="accent" appearance="fill">
-          <mat-label>Register As</mat-label>
-          <mat-select name="subType" formControlName="role">
-              <mat-option *ngFor="let key of keys" [value]="userRole[key]">
-                  {{ userRole[key] }}
-              </mat-option>
-          </mat-select>
-          <mat-error>
-              Please provide a valid Subscription Type
-          </mat-error>
-      </mat-form-field>
+      <form class="form" fxLayout="column" fxFlex="100" fxLayoutAlign="center" [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
 
         <mat-form-field color="accent" appearance="fill">
               <mat-label>Enter User Name</mat-label>
-              <input matInput placeholder="User Name" formControlName="userName" [errorStateMatcher]="matcher">
+              <input matInput placeholder="User Name" formControlName="userName">
               <mat-error>
                   Please provide a valid User Name
               </mat-error>
@@ -28,7 +16,7 @@
 
           <mat-form-field color="accent" appearance="fill">
               <mat-label>Enter Company/Full Name</mat-label>
-              <input matInput formControlName="companyName" placeholder="Company/Full Name" [errorStateMatcher]="matcher">
+              <input matInput formControlName="companyName" placeholder="Company/Full Name">
               <mat-error>
                   Please provide a valid Company/Full Name Date
               </mat-error>
@@ -36,14 +24,14 @@
 
           <mat-form-field color="accent" appearance="fill">
             <mat-label>Enter Email</mat-label>
-            <input matInput formControlName="email" placeholder="Email" [errorStateMatcher]="matcher">
+            <input matInput formControlName="email" placeholder="Email">
             <mat-error>
                 Please provide a Email
             </mat-error>
         </mat-form-field>
 
           <div fxLayout="row" fxLayoutGap="20px">
-              <button mat-raised-button type="submit" color="primary" color="accent">Register</button>
+              <button mat-raised-button type="submit" color="primary" color="accent">Update Profile</button>
               <button mat-raised-button type="button" color="primary" color="warn" (click)="onClear()">Clear</button>
           </div>
       </form>

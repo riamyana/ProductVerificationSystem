@@ -1,14 +1,13 @@
-<p>home works!</p>
-
-<form [formGroup]="form">
-    <mat-form-field color="accent" appearance="fill">
-        <mat-label>Enter Product Name</mat-label>
-        <input matInput placeholder="Product Name" formControlName="name">
-        <mat-error>
-            Please provide a valid Product Name
-        </mat-error>
-    </mat-form-field>
-</form>
-
-<button (click)="set()">Set Name</button>
-<button (click)="get()">Get Name</button>
+<div class="container" fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxLayout="row" fxLayoutAlign="space-around center" class="card-container">
+    <div class="card" fxLayout="row" fxLayoutAlign="space-around center">
+      <a routerLink="/manufacturer/add-product" *ngIf="this.userModel.userRole == userEnum.Manufacturer" class="link">Add Product</a>
+    </div>
+    <div class="card" fxLayout="row" fxLayoutAlign="space-around center">
+      <a routerLink="/verify-product" class="link">Verify Product</a>
+    </div>
+    <div class="card" fxLayout="row" fxLayoutAlign="space-around center">
+      <a routerLink="/change-ownership" class="link">Change Product Ownership</a>
+    </div>
+  </div>
+</div>

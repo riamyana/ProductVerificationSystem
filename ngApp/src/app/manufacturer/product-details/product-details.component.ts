@@ -1,9 +1,11 @@
+import { ErrorMsg } from './../../common/constants/errorMsg';
+import { NotifierService } from './../../service/notifier/notifier.service';
+import { UserModel } from './../../common/model/userModel';
 import { Product } from './../../common/constants/product';
 import { EthcontractService } from './../../service/ethcontract.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
-import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-product-details',
@@ -16,23 +18,24 @@ export class ProductDetailsComponent implements OnInit {
   lng: number;
   qrData: string = "";
   productId: number;
-  // added: BehaviorSubject<Boolean>;
   added: Boolean = false;
   generated: Boolean = false;
   href: string;
   elementType: 'url' | 'canvas' | 'img' = 'url';
+  currentUser: UserModel;
 
   constructor(
     private formBuilder: FormBuilder,
-    private ethcontractService: EthcontractService
+    private ethcontractService: EthcontractService,
+    private notifierService: NotifierService
   ) {
     this.initAndDisplayAccount();
-    // this.added = new BehaviorSubject<Boolean>(false);
   }
 
   ngOnInit(): void {
     this.initForm();
     this.setMap();
+    this.currentUser = this.ethcontractService.currentUserValue;
   }
 
   initAndDisplayAccount = () => {
@@ -77,7 +80,7 @@ export class ProductDetailsComponent implements OnInit {
 
   onAdd() {
     // this.setNewProduct();
-    this.sendCoin();
+    this.addNewProduct();
   }
 
   onCancel() {
@@ -90,19 +93,16 @@ export class ProductDetailsComponent implements OnInit {
     this.generated = true;
   }
 
-  sendCoin = () => {
+  addNewProduct = () => {
     let data: Product = {
-      ownerName: "ABC",
+      ownerName: this.currentUser.companyOrFullName,
       serialNo: this.form.serialNo.value,
       name: this.form.productName.value,
       price: this.form.price.value,
       manufactDate: moment(this.form.date.value).format("DD/MM/yyyy").toString()
     }
 
-    // console.log(data);
-    // this.added = true;
-
-    this.ethcontractService.sendCoin(data)
+    this.ethcontractService.addNewProduct(data)
       .subscribe(data =>{
         this.added = true;
         this.productId = data.logs[0].args[0].words[0];
@@ -113,50 +113,45 @@ export class ProductDetailsComponent implements OnInit {
         Product Price: ${data.logs[0].args[4].words[0]}
         Manufacturing Date: ${data.logs[0].args[5]}
         Owner Name: ${data.logs[0].args[2]}`;
+        this.notifierService.showNotification(ErrorMsg.addNewProductMsg('success'), "OK", "success");
         console.log(this.qrData);
         console.log(data);
-      }, e => {console.log(e);})
+      }, e => {
+        this.notifierService.showNotification(ErrorMsg.addNewProductMsg('error'), "OK", "success");
+        console.log(e);
+      })
   };
 
-  setNewProduct() {
+  // setNewProduct() {
 
-    const that = this;
-    this.form.serialNo.setValue(1);
+  //   const that = this;
+  //   this.form.serialNo.setValue(1);
 
-    let data: Product = {
-      ownerName: "ABC",
-      serialNo: this.form.serialNo.value,
-      name: this.form.productName.value,
-      price: this.form.price.value,
-      manufactDate: moment(this.form.date.value, "MM/DD/YYYY").toString()
-    }
+  //   let data: Product = {
+  //     ownerName: this.currentUser.companyOrFullName,
+  //     serialNo: this.form.serialNo.value,
+  //     name: this.form.productName.value,
+  //     price: this.form.price.value,
+  //     manufactDate: moment(this.form.date.value, "MM/DD/YYYY").toString()
+  //   }
 
-    this.added = true;
+  //   this.added = true;
 
-    this.ethcontractService.setNewProduct(data).then(function(value) {
-      console.log(value);
-      // this.added.next(true);
-      that.added = true;
-      console.log(this.added.value);
-      alert(this.added.value);
-    }).catch(function(error) {
-      console.log(error);
-    });
-  }
+  //   this.ethcontractService.setNewProduct(data).then(function(value) {
+  //     console.log(value);
+  //     that.added = true;
+  //     console.log(this.added.value);
+  //     alert(this.added.value);
+  //   }).catch(function(error) {
+  //     console.log(error);
+  //   });
+  // }
 
   getProduct(id: number) {
     const value: any = {
       transferAddress: '',
       amount: '2'
     }
-    // this.ethcontractService.getProduct(id).then(function(status) {
-    //   if (status) {
-    //     console.log(status);
-    //     return status;
-    //   }
-    // }).catch(function(error) {
-    //   console.log(error);
-    // });
 
     this.ethcontractService.getProduct(id)
       .subscribe(data =>{
@@ -170,23 +165,11 @@ export class ProductDetailsComponent implements OnInit {
   // }
 
   onSaveQr(qr) {
-
     const parentElement = qr.el.nativeElement.querySelector("img").src;
     console.log(parentElement);
-
-    // saveAs
   }
 
   download() {
-    // debugger;
-    // const qrcode = document.getElementById('qrcode');
-    // let doc = new jsPDF();
-
-    // let imageData= this.getBase64Image(qrcode.firstChild.firstChild);
-    // doc.addImage(imageData, "JPG",10, 10, 10, 10);
-
-    // doc.save('FirstPdf.jpg');
-
     this.href = document.getElementsByTagName('img')[0].src;
   }
 

@@ -1,3 +1,5 @@
+import { UsersEnum } from './../../common/model/userEnum';
+import { UserModel } from './../../common/model/userModel';
 import { Router } from '@angular/router';
 import { EthcontractService } from './../../service/ethcontract.service';
 import { Component, OnInit } from '@angular/core';
@@ -8,14 +10,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  userModel: UserModel;
+  userEnum = UsersEnum;
 
   login: Boolean = true;
   constructor(
-    private ethcontractService: EthcontractService,
+    public ethcontractService: EthcontractService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.ethcontractService.currentUser.subscribe(value => {
+      this.userModel = value;
+    });
   }
 
   onLogout() {

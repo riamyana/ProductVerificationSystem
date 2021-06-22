@@ -104,6 +104,13 @@ router.post('/authenticate', (req, res) => {
           responseData.userRole = user.userRole;
           responseData.email = user.email;
           res.status(200).send(responseData);
+
+          userData.nonce = Math.floor(Math.random() * 1000000);
+          User.updateOne({ publicAddress: userData.publicAddress }, { nonce: userData.nonce }, function (err, response) {
+            if (err) {
+              return res.status(401).send({ error: 'Problem in updating new nonce' });
+            }
+          })
         } else {
           return res.status(401).send({ error: 'Signature verification failed' });
         }

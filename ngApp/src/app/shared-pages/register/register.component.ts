@@ -5,7 +5,7 @@ import { FormErrorStateMatcher } from './../../common/errorStateMatcher/FormErro
 import { EthcontractService } from './../../service/ethcontract.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Users } from 'src/app/common/model/user';
+import { UsersEnum } from 'src/app/common/model/userEnum';
 
 @Component({
   selector: 'app-register',
@@ -16,12 +16,16 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   matcher = new FormErrorStateMatcher();
   userModel: UserModel;
+  userRole = UsersEnum;
+  keys;
 
   constructor(
     private ethcontractService: EthcontractService,
     private formBuilder: FormBuilder,
     private notifierService: NotifierService
-  ) { }
+  ) {
+    this.keys = Object.keys(this.userRole);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -30,6 +34,7 @@ export class RegisterComponent implements OnInit {
 
   initForm() {
     this.registerForm = this.formBuilder.group({
+      role: [UsersEnum.Other, Validators.required],
       userName: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]]
@@ -62,10 +67,9 @@ export class RegisterComponent implements OnInit {
       userName: this.form.userName.value,
       companyOrFullName: this.form.companyName.value,
       email: this.form.email.value,
-      userRole: Users.Manufacturer
+      userRole: this.form.role.value
     }
 
-    debugger;
     this.ethcontractService.register(this.userModel)
       .subscribe(
         res => {
@@ -84,6 +88,7 @@ export class RegisterComponent implements OnInit {
   onClear() {
     this.form.userName.setValue('');
     this.form.companyName.setValue('');
+    this.form.email.setValue('');
   }
 
 }
