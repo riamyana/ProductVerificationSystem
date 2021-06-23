@@ -395,6 +395,19 @@ export class EthcontractService {
     return this.isAuthenticated.value;
   }
 
+  updateProfile(data: UserModel) {
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<UserModel>(`${environment.apiUrl}update-profile`, data, { headers: httpHeaders })
+      .pipe(map(result => {
+        localStorage.setItem('DAppToken', JSON.stringify(result));
+        this.currentUserSubject.next(result);
+        return result;
+      }));
+  }
+
   isLoggedIn():boolean {
     return !!(localStorage.getItem('DAppToken'));
   }

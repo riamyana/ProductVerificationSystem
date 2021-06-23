@@ -3,7 +3,7 @@ import { NotifierService } from './../../service/notifier/notifier.service';
 import { UserModel } from './../../common/model/userModel';
 import { Product } from './../../common/constants/product';
 import { EthcontractService } from './../../service/ethcontract.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
@@ -13,6 +13,7 @@ import * as moment from 'moment';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
+  // @Input() max: D | null;
   productForm: FormGroup;
   lat: number;
   lng: number;
@@ -23,6 +24,7 @@ export class ProductDetailsComponent implements OnInit {
   href: string;
   elementType: 'url' | 'canvas' | 'img' = 'url';
   currentUser: UserModel;
+  today = new Date();
 
   constructor(
     private formBuilder: FormBuilder,

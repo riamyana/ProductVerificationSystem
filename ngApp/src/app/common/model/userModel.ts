@@ -5,6 +5,7 @@ export interface UserModel {
   userRole?: UsersEnum,
   email?: String,
   companyOrFullName?: String,
+  manufacturerName?: String,
   nonce?: String,
   token?: String
 }

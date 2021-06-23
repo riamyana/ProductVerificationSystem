@@ -16,7 +16,7 @@
 
             <mat-form-field color="accent" appearance="fill">
                 <mat-label>Enter Manufacturing Date</mat-label>
-                <input matInput [matDatepicker]="start" formControlName="date" placeholder="Manufacturing Date">
+                <input matInput [matDatepicker]="start" formControlName="date" [max]="today" placeholder="Manufacturing Date">
                 <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
                 <mat-datepicker #start></mat-datepicker>
                 <mat-error>
