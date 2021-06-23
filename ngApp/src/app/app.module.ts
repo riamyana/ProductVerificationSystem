@@ -1,3 +1,6 @@
+import { JwtInterceptorService } from './interceptors/jwt-interceptor.service';
+import { AuthGuardGuard } from './auth-guard.guard';
+import { EthcontractService } from './service/ethcontract.service';
 import { NotifierComponent } from './shared/notifier/notifier.component';
 import { MaterialModule } from './material/material.module';
 import { DefaultModule } from './layouts/default/default.module';
@@ -8,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QRCodeModule } from 'angularx-qrcode';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +26,12 @@ import { HttpClientModule } from '@angular/common/http';
     QRCodeModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [EthcontractService, AuthGuardGuard,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

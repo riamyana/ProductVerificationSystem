@@ -102,7 +102,7 @@ router.post('/authenticate', (req, res) => {
           responseData['token'] = token;
           responseData.userName = user.userName;
           responseData.companyOrFullName = user.companyOrFullName;
-          responseData.manufacturerName = registeredUser.manufacturerName;
+          responseData.manufacturerName = user.manufacturerName;
           responseData.userRole = user.userRole;
           responseData.email = user.email;
           res.status(200).send(responseData);
@@ -142,11 +142,11 @@ router.post('/update-profile', (req, res) => {
             let token = jwt.sign(payload, 'DAppsecretKey');
             responseData = { 'role': user.userRole };
             responseData['token'] = token;
-            responseData.userName = user.userName;
-            responseData.manufacturerName = registeredUser.manufacturerName;
-            responseData.companyOrFullName = user.companyOrFullName;
-            responseData.userRole = user.userRole;
-            responseData.email = user.email;
+            responseData.userName = userData.userName;
+            responseData.manufacturerName = userData.manufacturerName;
+            responseData.companyOrFullName = userData.companyOrFullName;
+            responseData.userRole = userData.userRole;
+            responseData.email = userData.email;
 
             return res.status(200).send(responseData);
           }

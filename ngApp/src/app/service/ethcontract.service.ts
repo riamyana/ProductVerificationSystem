@@ -317,32 +317,6 @@ export class EthcontractService {
         });
     })
 
-
-
-    // return new Promise((resolve, reject) => {
-    //   console.log('transfer.service :: transferEther :: tokenAbi');
-    //   console.log(tokenAbi);
-    //   const contract = require('@truffle/contract');
-    //   const transferContract = contract(tokenAbi);
-    //   transferContract.setProvider(that.web3Provider);
-    //   console.log('transfer.service :: transferEther :: transferContract');
-    //   console.log(transferContract);
-    //   transferContract.deployed().then(function (instance) {
-    //     return instance.getProduct(1, {
-    //       from: that.account
-    //     });
-    //   }).then(function (status) {
-    //     if (status) {
-    //       console.log(status);
-    //       return resolve({ status: true });
-    //     }
-    //   }).catch(function (error) {
-    //     console.log(error);
-    //     return reject('transfer.service error');
-    //   });;
-    // });
-
-
   }
 
   getAccountInfo() {
@@ -401,6 +375,10 @@ export class EthcontractService {
       'Content-Type': 'application/json'
     });
 
+    data.publicAddress = this.account;
+    data.manufacturerName = this.currentUserValue.manufacturerName;
+
+    console.log(data);
     return this.http.post<UserModel>(`${environment.apiUrl}update-profile`, data, { headers: httpHeaders })
       .pipe(map(result => {
         localStorage.setItem('DAppToken', JSON.stringify(result));
@@ -418,34 +396,4 @@ export class EthcontractService {
     localStorage.removeItem('DAppToken');
     this.currentUserSubject.next(null);
   }
-  // transferEther(
-  //   _transferFrom,
-  //   _transferTo,
-  //   _amount,
-  //   _remarks
-  // ) {
-  //   let that = this;
-
-  //   return new Promise((resolve, reject) => {
-  //     let paymentContract = TruffleContract(tokenAbi);
-  //     paymentContract.setProvider(that.web3Provider);
-
-  //     paymentContract.deployed().then(function(instance) {
-  //         return instance.transferFund(
-  //           _transferTo,
-  //           {
-  //             from:_transferFrom,
-  //             value:window.web3.toWei(_amount, "ether")
-  //           });
-  //       }).then(function(status) {
-  //         if(status) {
-  //           return resolve({status:true});
-  //         }
-  //       }).catch(function(error){
-  //         console.log(error);
-
-  //         return reject("Error in transferEther service call");
-  //       });
-  //   });
-  // }
 }

@@ -1,3 +1,4 @@
+import { UsersEnum } from './../../common/model/userEnum';
 import { UserModel } from './../../common/model/userModel';
 import { ErrorMsg } from './../../common/constants/errorMsg';
 import { NotifierService } from './../../service/notifier/notifier.service';
@@ -5,7 +6,6 @@ import { FormErrorStateMatcher } from './../../common/errorStateMatcher/FormErro
 import { EthcontractService } from './../../service/ethcontract.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { UsersEnum } from 'src/app/common/model/userEnum';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   userModel: UserModel;
   userRole = UsersEnum;
   keys;
+  role: UsersEnum = UsersEnum.Other;
 
   constructor(
     private ethcontractService: EthcontractService,
@@ -36,8 +37,17 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       role: [UsersEnum.Other, Validators.required],
       userName: ['', Validators.required],
-      companyName: ['', Validators.required],
+      manufacturerName: ['', Validators.required],
+      fullName: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]]
+    });
+
+    this.addSubscription();
+  }
+
+  addSubscription() {
+    this.form.role.valueChanges.subscribe(x => {
+      this.role = x;
     });
   }
 
@@ -65,9 +75,10 @@ export class RegisterComponent implements OnInit {
 
     this.userModel = {
       userName: this.form.userName.value,
-      companyOrFullName: this.form.companyName.value,
+      companyOrFullName: this.form.fullName.value,
       email: this.form.email.value,
-      userRole: this.form.role.value
+      userRole: this.form.role.value,
+      manufacturerName: this.form.manufacturerName.value
     }
 
     this.ethcontractService.register(this.userModel)
