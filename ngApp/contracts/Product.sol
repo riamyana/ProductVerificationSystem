@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Product {
-    event Added(uint index, address owner, string ownerName, string name, uint price, string manufactDate);
+    event Added(uint index, address owner, string ownerName, string name, uint price, string manufactDate, string manufacturerName);
 
     string private name;
     struct Products {
@@ -34,7 +34,7 @@ contract Product {
     function newProduct(string memory _manufacturerName, string memory _ownerName, uint _serialNo, string memory _name, uint _price, string memory _date) public {
         Products memory p = Products({owner: msg.sender, manufacturerName: _manufacturerName, ownerName: _ownerName, serialNo: _serialNo, name: _name, price: _price, manufactDate: _date});
         products[len] = p;
-        emit Added(len, msg.sender, _ownerName, _name, _price, _date);
+        emit Added(len, msg.sender, _ownerName, _name, _price, _date, _manufacturerName);
         len = len + 1;
     }
 

@@ -203,6 +203,7 @@ export class EthcontractService {
         .deployed()
         .then(instance => {
           return instance.newProduct(
+            product.manufacturerName,
             product.ownerName,
             product.serialNo,
             product.name,

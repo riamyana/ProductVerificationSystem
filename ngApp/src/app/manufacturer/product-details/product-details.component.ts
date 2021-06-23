@@ -97,6 +97,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addNewProduct = () => {
     let data: Product = {
+      manufacturerName: this.currentUser.companyOrFullName,
       ownerName: this.currentUser.companyOrFullName,
       serialNo: this.form.serialNo.value,
       name: this.form.productName.value,
@@ -110,11 +111,12 @@ export class ProductDetailsComponent implements OnInit {
         this.productId = data.logs[0].args[0].words[0];
         this.productId = this.productId + 1;
         this.qrData = `
-        Product Id: ${data.logs[0].args[0].words[0]}
-        Product Name: ${data.logs[0].args[3]}
-        Product Price: ${data.logs[0].args[4].words[0]}
-        Manufacturing Date: ${data.logs[0].args[5]}
-        Owner Name: ${data.logs[0].args[2]}`;
+        Product Id: ${data.logs[0].args['index'].words[0]}\n
+        Product Name: ${data.logs[0].args['name']}\n
+        Product Price: ${data.logs[0].args['price'].words[0]}\n
+        Manufacturer Name:  ${data.logs[0].args['manufacturerName']}\n
+        Manufacturing Date: ${data.logs[0].args['manufactDate']}\n
+        Owner Name: ${data.logs[0].args['ownerName']}`;
         this.notifierService.showNotification(ErrorMsg.addNewProductMsg('success'), "OK", "success");
         console.log(this.qrData);
         console.log(data);
