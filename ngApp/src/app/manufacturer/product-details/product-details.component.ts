@@ -97,7 +97,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addNewProduct = () => {
     let data: Product = {
-      manufacturerName: this.currentUser.companyOrFullName,
+      manufacturerName: this.currentUser.manufacturerName,
       ownerName: this.currentUser.companyOrFullName,
       serialNo: this.form.serialNo.value,
       name: this.form.productName.value,

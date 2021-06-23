@@ -1,3 +1,5 @@
+import { ErrorMsg } from './../../common/constants/errorMsg';
+import { UserModel } from './../../common/model/userModel';
 import { EthcontractService } from './../../service/ethcontract.service';
 import { NotifierService } from './../../service/notifier/notifier.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +12,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
+  companyName: String;
+  user: UserModel;
 
   constructor(
     private ethcontractService: EthcontractService,
@@ -24,9 +28,9 @@ export class ProfileComponent implements OnInit {
 
   initForm() {
     this.profileForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      companyName: ['', Validators.required],
-      email: ['', [Validators.email, Validators.required]]
+      userName: [this.ethcontractService.currentUserValue.userName, Validators.required],
+      companyName: [this.ethcontractService.currentUserValue.companyOrFullName, Validators.required],
+      email: [this.ethcontractService.currentUserValue.email, [Validators.email, Validators.required]]
     });
   }
 
@@ -48,7 +52,18 @@ export class ProfileComponent implements OnInit {
   }
 
   onUpdateProfile() {
-    alert("profile");
+    this.user = {
+      userName: this.form.userName.value,
+      companyOrFullName: this.form.companyName.value,
+      email: this.form.email.value
+    };
+    this.ethcontractService.updateProfile(this.user).subscribe(success => {
+      this.notifierService.showNotification(ErrorMsg.updateProfileMsg('success'), "OK", "success");
+      console.log(success);
+    }, err => {
+      console.log(err);
+      this.notifierService.showNotification(ErrorMsg.updateProfileMsg('error'), "OK", "error");
+    })
   }
 
   onClear() {

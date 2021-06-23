@@ -7,7 +7,7 @@ const userSchema = new schema({
   email: String,
   userRole: String,
   companyOrFullName: String,
-  manufacturerName?: String,
+  manufacturerName: String,
   nonce: String
 })
 

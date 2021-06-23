@@ -16,4 +16,8 @@ export class ErrorMsg {
   static changeOwnerMsg(type: string) {
     return (type == 'success') ? "Owner changed Successfully..! :)" : "Something went wrong in changing owner..! Please try again later..! :("
   }
+
+  static updateProfileMsg(type: string) {
+    return (type == 'success') ? "Profile Updated Successfully..! :)" : "Something went wrong in updating profile..! Please try again later..! :("
+  }
 }
