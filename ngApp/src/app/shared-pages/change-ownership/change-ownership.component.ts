@@ -1,6 +1,10 @@
+import { ConfirmDialogComponent } from './../../shared/confirm-dialog/confirm-dialog.component';
+import { ErrorMsg } from './../../common/constants/errorMsg';
+import { NotifierService } from './../../service/notifier/notifier.service';
 import { EthcontractService } from './../../service/ethcontract.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-change-ownership',
@@ -12,7 +16,9 @@ export class ChangeOwnershipComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ethcontractService: EthcontractService
+    private ethcontractService: EthcontractService,
+    private notifierService: NotifierService,
+    public dialog: MatDialog
   ) {
     this.initAndDisplayAccount();
   }
@@ -48,11 +54,23 @@ export class ChangeOwnershipComponent implements OnInit {
   }
 
   onChangeOwner() {
-    this.ethcontractService.changeOwner(this.form.id.value, this.form.address.value, this.form.ownerName.value)
-    .subscribe((value) => {
-      console.log(value);
-    }, (err) => {
-      console.log(err);
+    if (this.changeOwnerForm.invalid) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.ethcontractService.changeOwner(this.form.id.value, this.form.address.value, this.form.ownerName.value)
+          .subscribe((value) => {
+            this.notifierService.showNotification(ErrorMsg.addNewProductMsg('success'), "OK", "success");
+            console.log(value);
+          }, (err) => {
+            this.notifierService.showNotification(ErrorMsg.changeOwnerMsg('success'), "OK", "success");
+            console.log(err);
+          });
+      }
     });
   }
 

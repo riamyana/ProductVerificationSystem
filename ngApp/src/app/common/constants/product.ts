@@ -1,7 +1,7 @@
 export interface Product {
-    ownerName: string;
+    ownerName: String;
     serialNo: number;
-    name: string;
+    name: String;
     price: number;
-    manufactDate: string;
+    manufactDate: String;
 }

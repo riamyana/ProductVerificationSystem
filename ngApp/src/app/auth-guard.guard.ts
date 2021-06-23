@@ -1,5 +1,4 @@
 import { EthcontractService } from './service/ethcontract.service';
-import { Users } from './common/model/user';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';

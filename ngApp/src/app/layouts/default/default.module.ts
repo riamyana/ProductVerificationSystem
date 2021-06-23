@@ -1,3 +1,5 @@
+import { ProfileComponent } from './../../shared-pages/profile/profile.component';
+import { AboutUsComponent } from './../../shared-pages/about-us/about-us.component';
 import { RegisterComponent } from './../../shared-pages/register/register.component';
 import { ChangeOwnershipComponent } from './../../shared-pages/change-ownership/change-ownership.component';
 import { VerifyProductComponent } from './../../shared-pages/verify-product/verify-product.component';
@@ -28,7 +30,9 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     HomeComponent,
     VerifyProductComponent,
     ChangeOwnershipComponent,
-    RegisterComponent
+    RegisterComponent,
+    AboutUsComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +51,9 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ProductDetailsComponent,
     AddProductComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    AboutUsComponent,
+    ProfileComponent
   ]
 })
 export class DefaultModule { }

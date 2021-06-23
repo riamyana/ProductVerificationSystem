@@ -1,10 +1,11 @@
-import { Users } from './user';
+import { UsersEnum } from './userEnum';
 export interface UserModel {
   publicAddress?: String,
   userName?: String,
-  userRole?: Users,
+  userRole?: UsersEnum,
   email?: String,
   companyOrFullName?: String,
+  manufacturerName?: String,
   nonce?: String,
   token?: String
 }

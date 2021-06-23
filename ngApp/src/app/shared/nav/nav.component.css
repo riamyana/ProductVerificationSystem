@@ -2,7 +2,7 @@ ul {
     float: right;
     list-style-type: none;
 }
-  
+
 ul li {
     display: inline-block;
     padding: 5px;
@@ -11,4 +11,17 @@ ul li {
 .activeLink {
     background: #55c1b8;
     color: rgb(3, 57, 103) !important;
+}
+
+.logged {
+  padding: 10px;
+  font-size: 150%;
+}
+
+.profile {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  padding-left: 0px;
+  font-size: 100%;
 }

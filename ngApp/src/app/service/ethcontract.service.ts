@@ -188,7 +188,7 @@ export class EthcontractService {
     });
   }
 
-  sendCoin(product: Product): Observable<any> {
+  addNewProduct(product: Product): Observable<any> {
 
     console.log(product);
     // product.manufactDate = "12/23/23";
@@ -249,54 +249,47 @@ export class EthcontractService {
     })
   }
 
-  setNewProduct(product: Product) {
-    const that = this;
-    // console.log('transfer.service :: transferEther to: ' +
-    //   value.transferAddress + ', from: ' + that.account + ', amount: ' + value.amount);
-    console.log(product);
+  // setNewProduct(product: Product) {
+  //   const that = this;
+  //   // console.log('transfer.service :: transferEther to: ' +
+  //   //   value.transferAddress + ', from: ' + that.account + ', amount: ' + value.amount);
+  //   console.log(product);
 
-    return new Promise((resolve, reject) => {
-      console.log('transfer.service :: transferEther :: tokenAbi');
-      console.log(tokenAbi);
-      const contract = require('@truffle/contract');
-      const transferContract = contract(tokenAbi);
-      transferContract.setProvider(that.web3Provider);
-      console.log('transfer.service :: transferEther :: transferContract');
-      console.log(transferContract);
+  //   return new Promise((resolve, reject) => {
+  //     console.log('transfer.service :: transferEther :: tokenAbi');
+  //     console.log(tokenAbi);
+  //     const contract = require('@truffle/contract');
+  //     const transferContract = contract(tokenAbi);
+  //     transferContract.setProvider(that.web3Provider);
+  //     console.log('transfer.service :: transferEther :: transferContract');
+  //     console.log(transferContract);
 
-      const instance = transferContract.deployed().then(function (instance) {
-        return instance.newProduct(
-          product.serialNo,
-          product.name,
-          product.price,
-          product.manufactDate,
-          {
-            from: that.account
-          });
-      }).then(function (status) {
-        console.log(status);
-        // console.log(status.events.Added.returnValues[0]);
-        console.log(status.logs[0].event);
-        if (status) {
-          return status;
-        }
-      }).catch(function (error) {
-        console.log(error);
-        return reject('transfer.service error');
-      });
+  //     const instance = transferContract.deployed().then(function (instance) {
+  //       return instance.newProduct(
+  //         product.serialNo,
+  //         product.name,
+  //         product.price,
+  //         product.manufactDate,
+  //         {
+  //           from: that.account
+  //         });
+  //     }).then(function (status) {
+  //       console.log(status);
+  //       // console.log(status.events.Added.returnValues[0]);
+  //       console.log(status.logs[0].event);
+  //       if (status) {
+  //         return status;
+  //       }
+  //     }).catch(function (error) {
+  //       console.log(error);
+  //       return reject('transfer.service error');
+  //     });
 
-      // console.log(data);
+  //     console.log(instance);
 
-      // data.once("Added", (error, event) => {
-      //   if (!error) console.log(event);
-      // })
-      // return data;
-
-      console.log(instance);
-
-      return instance;
-    });
-  }
+  //     return instance;
+  //   });
+  // }
 
   getProduct(id: number): Observable<any> {
     const that = this;
@@ -383,6 +376,7 @@ export class EthcontractService {
     return this.http.post<UserModel>(`${environment.apiUrl}authenticate`, data, { headers: httpHeaders })
       .pipe(map(result => {
         localStorage.setItem('DAppToken', JSON.stringify(result));
+        this.currentUserSubject.next(result);
         return result;
       }));
   }
@@ -399,6 +393,19 @@ export class EthcontractService {
     this.isAuthenticated.next(false);
     this.currentUserSubject.next(null);
     return this.isAuthenticated.value;
+  }
+
+  updateProfile(data: UserModel) {
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<UserModel>(`${environment.apiUrl}update-profile`, data, { headers: httpHeaders })
+      .pipe(map(result => {
+        localStorage.setItem('DAppToken', JSON.stringify(result));
+        this.currentUserSubject.next(result);
+        return result;
+      }));
   }
 
   isLoggedIn():boolean {
