@@ -343,7 +343,6 @@ export class EthcontractService {
   }
 
   authenticate(data: any) {
-    // debugger;
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });
