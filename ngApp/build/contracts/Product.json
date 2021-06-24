@@ -6877,12 +6877,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x0244B9E8Dd561630f261a12D432b133D5Df421E7",
-      "transactionHash": "0xb28c5e7d6153443465830ec7bb2a9006dc1e641ad76030de11bb57970c1142e4"
+      "address": "0xa4dd74b8Ef169d8A1066290D5275685f2f6d3F4a",
+      "transactionHash": "0xf1762bca5a7a9384b6355b12d4810fb96bbe7ae2b54e19f09ede8e770d5f0969"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-23T19:33:58.286Z",
+  "updatedAt": "2021-06-24T16:44:25.551Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

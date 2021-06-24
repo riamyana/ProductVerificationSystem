@@ -250,48 +250,6 @@ export class EthcontractService {
     })
   }
 
-  // setNewProduct(product: Product) {
-  //   const that = this;
-  //   // console.log('transfer.service :: transferEther to: ' +
-  //   //   value.transferAddress + ', from: ' + that.account + ', amount: ' + value.amount);
-  //   console.log(product);
-
-  //   return new Promise((resolve, reject) => {
-  //     console.log('transfer.service :: transferEther :: tokenAbi');
-  //     console.log(tokenAbi);
-  //     const contract = require('@truffle/contract');
-  //     const transferContract = contract(tokenAbi);
-  //     transferContract.setProvider(that.web3Provider);
-  //     console.log('transfer.service :: transferEther :: transferContract');
-  //     console.log(transferContract);
-
-  //     const instance = transferContract.deployed().then(function (instance) {
-  //       return instance.newProduct(
-  //         product.serialNo,
-  //         product.name,
-  //         product.price,
-  //         product.manufactDate,
-  //         {
-  //           from: that.account
-  //         });
-  //     }).then(function (status) {
-  //       console.log(status);
-  //       // console.log(status.events.Added.returnValues[0]);
-  //       console.log(status.logs[0].event);
-  //       if (status) {
-  //         return status;
-  //       }
-  //     }).catch(function (error) {
-  //       console.log(error);
-  //       return reject('transfer.service error');
-  //     });
-
-  //     console.log(instance);
-
-  //     return instance;
-  //   });
-  // }
-
   getProduct(id: number): Observable<any> {
     const that = this;
 
