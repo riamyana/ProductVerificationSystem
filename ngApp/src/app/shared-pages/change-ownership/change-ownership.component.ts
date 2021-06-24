@@ -64,10 +64,10 @@ export class ChangeOwnershipComponent implements OnInit {
       if (result) {
         this.ethcontractService.changeOwner(this.form.id.value, this.form.address.value, this.form.ownerName.value)
           .subscribe((value) => {
-            this.notifierService.showNotification(ErrorMsg.addNewProductMsg('success'), "OK", "error");
+            this.notifierService.showNotification(ErrorMsg.addNewProductMsg('success'), "OK", "success");
             console.log(value);
           }, (err) => {
-            this.notifierService.showNotification(ErrorMsg.changeOwnerMsg('success'), "OK", "success");
+            this.notifierService.showNotification(ErrorMsg.changeOwnerMsg('success'), "OK", "error");
             console.log(err);
           });
       }
